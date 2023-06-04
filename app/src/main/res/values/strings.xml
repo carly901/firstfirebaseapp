@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">firstfirebaseapp</string>
+    <string name="login_with_google">Login With Google</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="welcome_user">Welcome, User</string>
+    <string name="hi_there_user">Hi there user</string>
+    <string name="hi_user">Welcome, User</string>
+    <string name="message">Message</string>
+    <string name="add_message">Add Message</string>
+</resources>
