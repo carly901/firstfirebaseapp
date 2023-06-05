@@ -35,7 +35,7 @@ public class ChatActivity extends AppCompatActivity {
         ImageView userImage = findViewById(R.id.mainUserImage);
         Glide.with(this).load(account.getPhotoUrl()).into(userImage);
 
-        adapter = new MessageAdapter();
+        adapter = new MessageAdapter(account.getId());
         RecyclerView recycler = findViewById(R.id.chatRV);
         recycler.setHasFixedSize(false);
         RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(),1);
