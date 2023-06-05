@@ -1,6 +1,5 @@
 package com.example.firstfirebaseapp;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,9 +88,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         chatMessage message = messages.get(position);
-        holder.message.setText(message.message);
-        holder.userName.setText(message.userName);
-        Glide.with(holder.userImage.getContext()).load(message.userPhoto).into(holder.userImage);
+        if (message.userID.equals(userID)) {
+            holder.messageCard.setVisibility(View.GONE);
+            holder.messageCard_m.setVisibility(View.VISIBLE);
+            holder.message_m.setText(message.message);
+            holder.userName_m.setText(message.userName);
+            Glide.with(holder.userImage_m.getContext()).load(message.userPhoto).into(holder.userImage_m);
+        } else {
+            holder.messageCard_m.setVisibility(View.GONE);
+            holder.messageCard.setVisibility(View.VISIBLE);
+            holder.message.setText(message.message);
+            holder.userName.setText(message.userName);
+            Glide.with(holder.userImage.getContext()).load(message.userPhoto).into(holder.userImage);
+        }
     }
 
     @Override
