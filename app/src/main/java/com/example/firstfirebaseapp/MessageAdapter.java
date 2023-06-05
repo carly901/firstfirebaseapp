@@ -27,8 +27,11 @@ import java.util.Map;
 public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     private List<chatMessage> messages = new ArrayList<>();
+    private String userID;
 
-    public MessageAdapter() {
+
+    public MessageAdapter(String userID) {
+        this.userID = userID;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("chat")
                 .get()
