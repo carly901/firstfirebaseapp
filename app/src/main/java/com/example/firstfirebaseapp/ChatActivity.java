@@ -26,11 +26,11 @@ public class ChatActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            account = (GoogleSignInAccount) extras.get("user");
+            account = (GoogleSignInAccount)extras.get("user");
         }
 
         TextView welcome = findViewById(R.id.welcomeTV);
-        welcome.setText("Welcome, " + account.getDisplayName());
+        welcome.setText("Hi there, " + account.getDisplayName());
 
         ImageView userImage = findViewById(R.id.mainUserImage);
         Glide.with(this).load(account.getPhotoUrl()).into(userImage);
@@ -38,7 +38,7 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new MessageAdapter();
         RecyclerView recycler = findViewById(R.id.chatRV);
         recycler.setHasFixedSize(false);
-        RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(), 1);
+        RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(),1);
         recycler.setLayoutManager(manager);
 
         recycler.setAdapter(adapter);
@@ -48,7 +48,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText text = findViewById(R.id.messageET);
-                chatMessage m = new chatMessage(account.getPhotoUrl().toString(), account.getDisplayName(), account.getId(), text.getText().toString());
+                chatMessage m = new chatMessage(account.getPhotoUrl().toString(),account.getDisplayName(),account.getId(),text.getText().toString());
                 adapter.addMessage(m);
                 text.setText("");
             }

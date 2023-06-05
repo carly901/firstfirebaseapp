@@ -1,67 +1,76 @@
 package com.example.firstfirebaseapp;
 
-import android.annotation.SuppressLint;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     private List<chatMessage> messages = new ArrayList<>();
 
-    @SuppressLint("NotifyDataSetChanged")
     public MessageAdapter() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("chat")
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        messages = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            try {
-                                chatMessage m = new chatMessage(
-                                        Objects.requireNonNull(document.get("userPhoto")).toString(),
-                                        Objects.requireNonNull(document.get("userName")).toString(),
-                                        Objects.requireNonNull(document.get("userID")).toString(),
-                                        Objects.requireNonNull(document.get("message")).toString()
-                                );
-                                messages.add(m);
-                            } catch (Exception ignored) {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            messages = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                try {
+                                    chatMessage m = new chatMessage(
+                                            document.get("userPhoto").toString(),
+                                            document.get("userName").toString(),
+                                            document.get("userID").toString(),
+                                            document.get("message").toString()
+                                    );
+                                    messages.add(m);
+                                } catch (Exception e) {
+                                }
                             }
+                            notifyDataSetChanged();
                         }
-                        notifyDataSetChanged();
                     }
                 });
-        db.collection("chat").addSnapshotListener((value, error) -> {
-            messages = new ArrayList<>();
-            assert value != null;
-            for (DocumentSnapshot document : value.getDocuments()) {
-                try {
-                    chatMessage m = new chatMessage(
-                            Objects.requireNonNull(document.get("userPhoto")).toString(),
-                            Objects.requireNonNull(document.get("userName")).toString(),
-                            Objects.requireNonNull(document.get("userID")).toString(),
-                            Objects.requireNonNull(document.get("message")).toString()
-                    );
-                    messages.add(m);
-                } catch (Exception ignored) {
+        db.collection("chat").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                messages = new ArrayList<>();
+                for (DocumentSnapshot document : value.getDocuments()) {
+                    try {
+                        chatMessage m = new chatMessage(
+                                document.get("userPhoto").toString(),
+                                document.get("userName").toString(),
+                                document.get("userID").toString(),
+                                document.get("message").toString()
+                        );
+                        messages.add(m);
+                    } catch (Exception e) {
+                    }
                 }
+                notifyDataSetChanged();
             }
-            notifyDataSetChanged();
         });
     }
 
