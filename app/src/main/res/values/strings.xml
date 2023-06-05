@@ -8,4 +8,6 @@
     <string name="message">Message</string>
     <string name="add_message">Add Message</string>
     <string name="user_name">User Name</string>
+    <string name="todo">TODO</string>
+    <string name="welcome_to_chateasy">Welcome to ChatEasy</string>
 </resources>

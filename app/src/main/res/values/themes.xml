@@ -1,8 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Primary and secondary colors -->
+    <color name="colorPrimary">#72A8D3</color>
+    <color name="colorPrimaryDark">#E00A0A0B</color>
+    <color name="colorAccent">#FF81AC</color>
+
     <!-- Base application theme. -->
     <style name="Base.Theme.Firstfirebaseapp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#FF81AC</item>
     </style>
 
     <style name="Theme.Firstfirebaseapp" parent="Base.Theme.Firstfirebaseapp" />
